@@ -13,6 +13,7 @@ from flask_gravatar import Gravatar
 from sqlalchemy.ext.declarative import declarative_base
 from functools import wraps
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
+import os
 
 
 def admin_permissions(func):
@@ -27,7 +28,8 @@ def admin_permissions(func):
 
 Base = declarative_base()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -108,6 +110,7 @@ def load_user(user_id):
 
 @app.route('/')
 def get_all_posts():
+    print(os.environ.get('SECRET_KEY'))
     posts = BlogPost.query.all()
     return render_template("index.html", all_posts=posts, current_user=current_user)
 
