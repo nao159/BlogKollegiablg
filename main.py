@@ -29,7 +29,7 @@ def admin_permissions(func):
 Base = declarative_base()
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_NEW')
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
